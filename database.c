@@ -62,6 +62,7 @@ abook_field standard_fields[] = {
 	{0} /* ITEM_FIELDS */
 };
 
+bool db_need_save = FALSE;
 
 extern int first_list_item;
 extern int curitem;
@@ -294,6 +295,8 @@ next:
 
 	xfree(line);
 	item_free(&item);
+	db_need_save = FALSE;
+
 	return 0;
 }
 
@@ -350,6 +353,16 @@ write_database(FILE *out, struct db_enumerator e)
 int
 save_database()
 {
+
+	// only activate the day we are sure that db_need_save setting cover all possible
+	// modifications of the database using the UI
+#ifdef DEBUG
+	if(! db_need_save) {
+		fprintf(stderr, "[debug] database unmodified, request to write on-disk ignored\n");
+		return 0;
+	}
+#endif
+
 	FILE *out;
 	int ret = 0;
 	struct db_enumerator e = init_db_enumerator(ENUM_ALL);
@@ -376,6 +389,11 @@ save_database()
 	
 	if((rename(datafile_new, datafile)) == -1)
 		ret = -1;
+
+	if(ret == 0) {
+		db_need_save = FALSE;
+		refresh_screen();
+	}
 
 out:
 	free(datafile_new);
@@ -486,6 +504,7 @@ add_item2database(list_item item)
 
 	database[LAST_ITEM] = item_create();
         item_copy(database[LAST_ITEM], item);
+	db_need_save = TRUE;
 
 	return 0;
 }
@@ -511,6 +530,7 @@ remove_selected_items()
 			}
 			item_free(&database[LAST_ITEM]);
 			items--;
+			db_need_save = TRUE;
 		}
 	}
 
@@ -546,6 +566,7 @@ void merge_selected_items()
 			}
 			item_free(&database[LAST_ITEM]);
 			items--;
+			db_need_save = TRUE;
 		}
 	}
 
@@ -577,6 +598,7 @@ void remove_duplicates()
 				}
 				item_free(&database[LAST_ITEM]);
 				items--;
+				db_need_save = TRUE;
 			}
 	}
 
@@ -656,6 +678,7 @@ sort_by_field(char *name)
 	sort_field = field;
 
 	qsort((void *)database, items, sizeof(list_item), namecmp);
+	db_need_save = TRUE;
 
 	refresh_screen();
 }
@@ -666,6 +689,7 @@ sort_surname()
 	select_none();
 
 	qsort((void *)database, items, sizeof(list_item), surnamecmp);
+	db_need_save = TRUE;
 
 	refresh_screen();
 }
@@ -805,6 +829,9 @@ void
 item_copy(list_item dest, list_item src)
 {
 	memmove(dest, src, ITEM_SIZE);
+	// called by parse_database(), that's why
+	// parse_database() re-init db_need_save to FALSE
+	db_need_save = TRUE;
 }
 
 void
@@ -873,6 +900,7 @@ item_fput(list_item item, int i, char *val)
 
 	if(id != -1) {
 		item[id] = val;
+		db_need_save = TRUE;
 		return 1;
 	}
 
@@ -901,6 +929,7 @@ real_db_field_put(int item, int i, int std, char *val)
 
 	if(id != -1) {
 		database[item][id] = val;
+		db_need_save = TRUE;
 		return 1;
 	}
 

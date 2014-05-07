@@ -44,6 +44,8 @@ extern char *datafile;
 
 extern bool alternative_datafile;
 
+extern bool db_need_save;
+
 /*
  * internal variables
  */
@@ -684,6 +686,7 @@ ui_clear_database()
 {
 	if(statusline_ask_boolean(_("Clear WHOLE database"), FALSE)) {
 		close_database();
+		db_need_save = TRUE;
 		refresh_list();
 	}
 }
@@ -726,8 +729,10 @@ ui_find(int next)
 void
 ui_print_number_of_items()
 {
-	char *str = strdup_printf("     " "|%3d/%3d",
-		selected_items(), db_n_items());
+	char *str = strdup_printf("    %c" "|%3d/%3d",
+				  db_need_save ? '*' : ' ',
+				  selected_items(),
+				  db_n_items());
 
 	attrset(COLOR_PAIR(CP_HEADER));
 	mvaddstr(0, COLS-strlen(str), str);

@@ -37,6 +37,7 @@ static void locale_date(char *str, size_t str_len, int year, int month, int day)
  */
 
 extern int views_count;
+extern bool db_need_save;
 
 WINDOW *editw;
 
@@ -304,6 +305,7 @@ change_field(char *msg, char **field, size_t max_len)
 	*field = ui_readline(msg, old, max_len - 1, 0);
 
 	if(*field) {
+		db_need_save = TRUE;
 		xfree(old);
 		if(!**field)
 			xfree(*field);
