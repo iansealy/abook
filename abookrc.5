@@ -74,7 +74,7 @@ preserve any completely unknown field.
 .B standard
 only preserve the standard fields (see a list in the
   description of the \fBview\fP command) and the legacy
-  'custom[1-5]' fields.
+  'custom[1\-5]' fields.
 .TP
 .B none
 discards any unknown field.
@@ -90,8 +90,8 @@ Defines the way entries are displayed in the main list. This is a string contain
 \fI{name:22}\fP
 displays the \fIname\fP field with a maximal width of 22 characters.
 .TP
-\fI{phone:-12|workphone|mobile}\fP
-displays (right aligned within a width of 13 characters), either the \fIphone\fP, \fIworkphone\fP or \fImobile\fP field, whichever being the first to be non-empty.
+\fI{phone:\-12|workphone|mobile}\fP
+displays (right aligned within a width of 13 characters), either the \fIphone\fP, \fIworkphone\fP or \fImobile\fP field, whichever being the first to be non\-empty.
 .RE
 .IP
 Default is \fI" {name:22} {email:40} {phone:12|workphone|mobile}"\fP
@@ -132,7 +132,7 @@ Defines the style of address formatting to be used when exporting as text / prin
 
 .TP
 \fBuse_ascii_only\fP=[true|false]
-This option allows you to force Abook use only ASCII characters. This option is useful if your terminal doesn't support non-ASCII characters. Default is false.
+This option allows you to force Abook use only ASCII characters. This option is useful if your terminal doesn't support non\-ASCII characters. Default is false.
 
 .TP
 \fBadd_email_prevent_duplicates\fP=[true|false]
@@ -148,11 +148,11 @@ Defines if the cursor is visible in main display. Default is false.
 
 .TP
 \fBuse_mouse\fP=[true|false]
-Defines if navigation via the mouse is activated. Default is false. Most terminals can also inhibit ncurses mouse events at runtime by holding the Shift key (restoring mouse-selection behavior).
+Defines if navigation via the mouse is activated. Default is false. Most terminals can also inhibit ncurses mouse events at runtime by holding the Shift key (restoring mouse\-selection behavior).
 
 .TP
 \fBscroll_speed\fP=lines
-Defines the number of lines the adress list is scrolled by on a mouse wheel
+Defines the number of lines the address list is scrolled by on a mouse wheel
 action. This option only takes effect if use_mouse is enabled. Default is 2.
 
 .TP
