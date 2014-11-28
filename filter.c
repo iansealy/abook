@@ -1069,23 +1069,26 @@ html_export_database(FILE *out, struct db_enumerator e)
 	html_export_write_head(out);
 
 	db_enumerate_items(e) {
-		fprintf(out, "<tr>");
+		fprintf(out, " <tr>\n");
 		for(cur = index_elements; cur; cur = cur->next) {
 			if(cur->type != INDEX_FIELD)
 				continue;
-
+			
 			get_list_field(e.item, cur, &f);
 
+			fprintf(out, "  <td>");
+
 			if(f.type == FIELD_EMAILS) {
-				fprintf(out, "<td>");
 				html_print_emails(out, &f);
-				fprintf(out, "</td>");
-				continue;
 			} else {
-				fprintf(out, "<td>%s</td>", safe_str(f.data));
+				if (strcmp(safe_str(f.data), "") == 0)
+					fprintf(out, "&nbsp;");
+				else
+					fprintf(out, "%s", safe_str(f.data));
 			}
+			fprintf(out, "</td>\n");
 		}
-		fprintf(out, "</tr>\n");
+		fprintf(out, " </tr>\n");
 	}
 
 	html_export_write_tail(out);
@@ -1099,22 +1102,45 @@ html_export_write_head(FILE *out)
 	char *realname = get_real_name(), *str;
 	struct index_elem *cur;
 
-	fprintf(out, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
-	fprintf(out, "<html>\n<head>\n <title>%s's addressbook</title>",
-			realname );
-	fprintf(out, "\n</head>\n<body>\n");
-	fprintf(out, "\n<h2>%s's addressbook</h2>\n", realname );
-	fprintf(out, "<br><br>\n\n");
+	fprintf(out, "<!DOCTYPE html>\n");
+	fprintf(out, "<html>\n");
+	fprintf(out, "<head>\n");
+	fprintf(out, " <meta charset=\"utf-8\" />\n");
+	fprintf(out, " <title>");
+	fprintf(out, _("%s's addressbook"), realname );
+	fprintf(out, "</title>\n");
+	fprintf(out, " <style type=\"text/css\">\n");
+	fprintf(out, "  table {border-collapse: collapse ; border: 1px solid #000;}\n");
+	fprintf(out, "  table th, table td {text-align: left; border: 1px solid #000; padding: 0.33em;}\n");
+	fprintf(out, "  table th {border-bottom: 3px double #000; background-color: #ccc;}\n");
+	fprintf(out, " </style>\n");
+	fprintf(out, "</head>\n");
+	fprintf(out, "<body>\n");
+	fprintf(out, "<h1>");
+	fprintf(out, _("%s's addressbook"), realname);
+	fprintf(out, "</h1>\n");
 
-	fprintf(out, "<table border=\"1\" align=\"center\">\n<tr>");
+	fprintf(out, "<table>\n");
+	fprintf(out, "<thead>\n");
+	fprintf(out, " <tr>\n");
 	for(cur = index_elements; cur; cur = cur->next) {
 		if(cur->type != INDEX_FIELD)
 			continue;
 
 		get_field_info(cur->d.field.id, NULL, &str, NULL);
-		fprintf(out, "<th>%s</th>", str);
+
+		fprintf(out, "  <th>");
+
+		if (strcmp(str, "") == 0)
+			fprintf(out, "&nbsp;");
+		else
+			fprintf(out, "%s", str);
+
+		fprintf(out, "</th>\n");
 	}
-	fprintf(out, "</tr>\n\n");
+	fprintf(out, " </tr>\n");
+	fprintf(out, "<thead>\n");
+	fprintf(out, "<tbody>\n");
 
 	free(realname);
 }
@@ -1122,8 +1148,9 @@ html_export_write_head(FILE *out)
 static void
 html_export_write_tail(FILE *out)
 {
-	fprintf(out, "\n</table>\n");
-	fprintf(out, "\n</body>\n</html>\n");
+	fprintf(out, "</table>\n");
+	fprintf(out, "</body>\n");
+	fprintf(out, "</html>");
 }
 
 /*
