@@ -2647,7 +2647,7 @@ parse_custom_format(char *s, char *fmt_string, enum field_types *ft)
  cannotparse:
 	fprintf(stderr, _("%s: invalid format, index %ld\n"), __FUNCTION__, (start - s));
 	free(fmt_string);
-	while(*ft) free(ft--);
+	free(ft);
 	exit(EXIT_FAILURE);
 }
 
