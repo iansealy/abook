@@ -420,8 +420,8 @@ parse_command_line(int argc, char **argv)
 			fprintf(stderr, _("Invalid custom format string\n"));
 			exit(EXIT_FAILURE);
 		}
-		parsed_custom_format = (char *)malloc(FORMAT_STRING_LEN * sizeof(char*));
-		custom_format_fields = (enum field_types *)malloc(FORMAT_STRING_MAX_FIELDS * sizeof(enum field_types *));
+		parsed_custom_format = (char *)malloc(FORMAT_STRING_LEN);
+		custom_format_fields = (enum field_types *)malloc(FORMAT_STRING_MAX_FIELDS * sizeof(enum field_types));
 		parse_custom_format(custom_format, parsed_custom_format, custom_format_fields);
 	}
 	if(optind < argc) {

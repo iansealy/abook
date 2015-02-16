@@ -2723,11 +2723,10 @@ extern char custom_format[FORMAT_STRING_LEN];
 static int
 custom_export_database(FILE *out, struct db_enumerator e)
 {
-	char *format_string =
-	  (char *)malloc(FORMAT_STRING_LEN * sizeof(char*));
+	char *format_string = (char *)malloc(FORMAT_STRING_LEN);
 
 	enum field_types *ft =
-	  (enum field_types *)malloc(FORMAT_STRING_MAX_FIELDS * sizeof(enum field_types *));
+	  (enum field_types *)malloc(FORMAT_STRING_MAX_FIELDS * sizeof(enum field_types));
 
 	parse_custom_format(custom_format, format_string, ft);
 
