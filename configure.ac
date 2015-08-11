@@ -1,6 +1,6 @@
 dnl abook configure.in
 
-AC_INIT([Abook], [0.6.0pre2], [abook-devel@lists.sourceforge.net], [abook], [http://abook.sourceforge.net])
+AC_INIT([Abook], [0.6.1], [abook-devel@lists.sourceforge.net], [abook], [http://abook.sourceforge.net])
 AC_CONFIG_SRCDIR([abook.c])
 AC_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE

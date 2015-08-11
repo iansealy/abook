@@ -1,4 +1,6 @@
 git
+
+0.6.1
  - custom output format (Raphaël Droz)
  - remove duplicates (Fabio Zanini)
  - merge entries (Fabio Zanini)
@@ -8,11 +10,11 @@ git
  - color support (Thorsten Wißmann)
  - mouse support (Thorsten Wißmann)
  - extra-fields deletion bugfix (Jorrit Tijben)
- - additinal keybinding (Hagen Fuchs)
+ - additional keybindings (Hagen Fuchs)
  - autotools update (Fabio Zanini)
  - case-sensitive ldif fields parsing (Christian Brabandt)
  - ldif standard input support (Raphaël Droz)
- - ldif extensible field management rewritting (Raphaël Droz)
+ - ldif extensible field management rewrite (Raphaël Droz)
 
 0.6.0
  - configurable views (Cedric Duval)
