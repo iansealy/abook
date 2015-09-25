@@ -340,7 +340,7 @@ parse_command_line(int argc, char **argv)
 			{ 0, 0, 0, 0 }
 		};
 
-		c = getopt_long(argc, argv, "hC:",
+		c = getopt_long(argc, argv, "hC:f:",
 				long_options, &option_index);
 
 		if(c == -1)
