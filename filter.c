@@ -2646,7 +2646,6 @@ parse_custom_format(char *s, char *fmt_string, enum field_types *ft)
 
  cannotparse:
 	fprintf(stderr, _("%s: invalid format, index %ld\n"), __FUNCTION__, (start - s));
-	free(fmt_string);
 	free(ft);
 	exit(EXIT_FAILURE);
 }
@@ -2655,10 +2654,12 @@ static int
 custom_export_item(FILE *out, int item, char *s, enum field_types *ft);
 
 
-// used to store the format string from --outformatstr when "custom" format is used
-// default value overriden in export_file()
-extern char *parsed_custom_format;
-extern enum field_types *custom_format_fields;
+// stores the format string generated from --outformatstr {custom_format}
+// (when "custom" output format is requested)
+// overrides default value of custom_format set by from abook.c
+extern char custom_format[FORMAT_STRING_LEN];
+char parsed_custom_format[FORMAT_STRING_LEN];
+enum field_types *custom_format_fields = 0;
 
 /* wrapper for custom_export_item:
    1) avoid messing with extern pointer
@@ -2716,22 +2717,15 @@ custom_export_item(FILE *out, int item, char *fmt, enum field_types *ft)
   return 0;
 }
 
-// used to store the format string from --outformatstr when "custom" format is used
-// default value overriden from abook.c
-extern char custom_format[FORMAT_STRING_LEN];
-
 static int
 custom_export_database(FILE *out, struct db_enumerator e)
 {
-	char *format_string = (char *)malloc(FORMAT_STRING_LEN);
-
 	enum field_types *ft =
 	  (enum field_types *)malloc(FORMAT_STRING_MAX_FIELDS * sizeof(enum field_types));
 
-	parse_custom_format(custom_format, format_string, ft);
-
+	parse_custom_format(custom_format, (char*)&parsed_custom_format, ft);
 	db_enumerate_items(e) {
-	  if(custom_export_item(out, e.item, format_string, ft) == 0)
+	  if(custom_export_item(out, e.item, (char*)&parsed_custom_format, ft) == 0)
 	    fprintf(out, "\n");
 	}
 	return 0;

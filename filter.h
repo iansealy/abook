@@ -4,7 +4,7 @@
 #include "database.h"
 
 #define		FILTNAME_LEN	8
-#define		FORMAT_STRING_LEN	128
+#define		FORMAT_STRING_LEN	512
 #define		FORMAT_STRING_MAX_FIELDS	16
 
 
