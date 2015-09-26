@@ -2562,6 +2562,14 @@ bsdcal_export_database(FILE *out, struct db_enumerator e)
 	return 0;
 }
 
+/*
+ * end of BSD calendar export filter
+ */
+
+/*
+ * custom export filter
+ */
+
 static int
 find_field_enum(char *s) {
 	int i = -1;
@@ -2732,6 +2740,5 @@ custom_export_database(FILE *out, struct db_enumerator e)
 }
 
 /*
- * end of BSD calendar export filter
+ * end of custom export filter
  */
-
