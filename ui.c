@@ -598,7 +598,7 @@ get_commands()
 			case 'G':
 			case KEY_END: goto_end();	break;
 
-			case 'w': save_database();
+			case 'w': save_database(0); // we may reconsider force_save = 1
 				  break;
 			case 'l': ui_read_database();	break;
 			case 'i': import_database();	break;
@@ -812,9 +812,9 @@ ui_open_datafile()
 	}
 
 	if(opt_get_bool(BOOL_AUTOSAVE))
-		save_database();
+		save_database(0);
 	else if(statusline_ask_boolean(_("Save current database"), FALSE))
-		save_database();
+		save_database(1);
 
 	close_database();
 

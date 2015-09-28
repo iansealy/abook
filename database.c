@@ -351,13 +351,13 @@ write_database(FILE *out, struct db_enumerator e)
 }
 
 int
-save_database()
+save_database(int force_save)
 {
 
-	// only activate the day we are sure that db_need_save setting cover all possible
+	// officialize this the day we are sure that db_need_save cover all possible
 	// modifications of the database using the UI
 #ifdef DEBUG
-	if(! db_need_save) {
+	if(! db_need_save && force_save != 1) {
 		fprintf(stderr, "[debug] database unmodified, request to write on-disk ignored\n");
 		return 0;
 	}

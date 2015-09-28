@@ -167,9 +167,9 @@ quit_abook(int save_db)
 {
 	if(save_db)  {
 		if(opt_get_bool(BOOL_AUTOSAVE))
-			save_database();
+			save_database(0);
 		else if(statusline_ask_boolean(_("Save database"), TRUE))
-			save_database();
+			save_database(1);
 	} else if(!statusline_ask_boolean(_("Quit without saving"), FALSE))
 		return;
 
@@ -705,7 +705,7 @@ static void
 quit_add_email()
 {
 	if(add_email_count > 0) {
-		if(save_database() < 0) {
+		if(save_database(1) < 0) {
 			fprintf(stderr, _("cannot open %s\n"), datafile);
 			exit(EXIT_FAILURE);
 		}

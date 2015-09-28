@@ -79,7 +79,7 @@ void prepare_database_internals();
 int parse_database(FILE *in);
 int load_database(char *filename);
 int write_database(FILE *out, struct db_enumerator e);
-int save_database();
+int save_database(int force_save);
 void remove_selected_items();
 void merge_selected_items();
 void remove_duplicates();
