@@ -435,8 +435,10 @@ e_write_file(char *filename, int (*func) (FILE *in, struct db_enumerator e),
 	if((out = fopen(filename, "a")) == NULL)
 		return 1;
 
-	if(ftell(out))
+	if(ftell(out)) {
+		fclose(out);
 		return 1;
+	}
 
 	ret = (*func) (out, enumerator);
 
