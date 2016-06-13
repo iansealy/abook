@@ -175,7 +175,7 @@ if test x$debug = xtrue; then
 fi
 
 if test x$GCC = xyes; then
-	CFLAGS="-Wall $CFLAGS"
+	CFLAGS="-Wall -fgnu89-inline $CFLAGS"
 fi
 
 AC_CONFIG_FILES([Makefile abook.spec po/Makefile.in])
